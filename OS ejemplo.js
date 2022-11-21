@@ -26,4 +26,5 @@ nuevoEmmiter.on('delete',(path)=>{
     })
 })
 
+console.log()
 nuevoEmmiter.emit('delete','./pathTemporal.txt')
