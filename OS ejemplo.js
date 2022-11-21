@@ -1,6 +1,7 @@
 const os = require('os');
 const filesystem = require('fs')
 const event = require('events')
+const constants = require('constants')
 
 const rutaArchivosTemporales = os.tmpdir();
 const cpu = os.cpus();
@@ -26,4 +27,15 @@ nuevoEmmiter.on('delete',(path)=>{
     })
 })
 
-nuevoEmmiter.emit('delete','./pathTemporal.txt')
+
+filesystem.access('pathTemporal.txt', constants.F_OK,(err)=>{
+    if (err){
+        console.log("... el archivo no existe, creandolo...")
+        nuevoEmmiter.emit('log')
+        console.log("... archivo creado satisfactoriamente... ")
+    }else {
+        console.log('... archivo encontrado, eliminandolo...')
+        nuevoEmmiter.emit('delete','./pathTemporal.txt')
+        console.log('... archivo eliminado ...')
+    }
+})
